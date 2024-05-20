@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <string>
 #include <fstream>
 #include <Windows.h>
@@ -7,7 +7,7 @@ class Worker
 public:
     void Start()
     {
-        int workers = 1;
+        static int rabochie = 1;
         int answ;
         SetName();
         SetExp();
@@ -22,14 +22,13 @@ public:
         int answ2;
         if (answ == 1)
         {
-            AddToFile(workers);
+            AddToFile(rabochie);
             std::cout << "Начать заполнять данные о следующем работнике?\n1 - Да\n2 - Нет\n";
             std::cin >> answ2;
             if (answ2 == 1)
             {
+                rabochie++;
                 Start();
-                workers++;
-                answ2 = 0;
             }
         }
         else
@@ -38,9 +37,8 @@ public:
             std::cin >> answ2;
             if (answ2 == 1)
             {
+                rabochie++;
                 Start();
-                workers++;
-                answ2 = 0;
             }
         }
     }
@@ -104,11 +102,11 @@ public:
         std::cout << "Премия: " << premia << "\n";
         std::cout << "Итоговая сумма зарплаты: " << allMoney << "\n";
     }
-    void AddToFile(int workers)
+    void AddToFile(int rabochie)
     {
         static std::string fileName;    
         std::ofstream Workers;
-        if (workers > 1)
+        if (rabochie > 1)
         {
             int answ3;
             std::cout << "Использовать тот же файл или другой?\n1 - Тот же\n2 - Другой\n";
@@ -131,7 +129,7 @@ public:
         }
         else
         {
-            Workers << "Работник " << workers << "\n";
+            Workers << "Работник " << rabochie << "\n";
             Workers << "ФИ: " << name << "\n";
             Workers << "Стаж: " << experience << " \n";
             Workers << "Зарплата в час: " << money_in_hour << "\n";
@@ -163,3 +161,4 @@ int main()
     Worker one;
     one.Start();  
 }
+
